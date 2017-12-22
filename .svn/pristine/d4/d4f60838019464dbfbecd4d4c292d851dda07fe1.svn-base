@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pulan.Dao.AdvertismentDao">
+	<resultMap id="AdvertismentResult" type="com.pulan.model.Advertisment">
+		<result column="media_id" property="media_id" jdbcType="VARCHAR" />
+		<result column="media_name" property="media_name" jdbcType="VARCHAR" />
+		<result column="media_type" property="media_type" jdbcType="VARCHAR" />
+		<result column="media_link" property="media_link" jdbcType="VARCHAR" />
+		<result column="media_subject" property="media_subject" jdbcType="VARCHAR" />
+	</resultMap>
+	<insert id="insertAd" parameterType="com.pulan.model.Advertisment">
+	 <selectKey keyProperty="media_id" resultType="string" order="BEFORE">
+	    select replace(uuid(),'-','') from dual
+	  </selectKey>
+	  insert into ai_ad (media_id,media_name,media_type,media_link,media_subject)
+	  values(#{media_id},#{media_name},#{media_type},#{media_link},#{media_subject})
+	</insert>
+	<!-- 查询 -->
+	<select id="getAllFile" parameterType="Map" resultMap="AdvertismentResult">
+	  SELECT * from ai_ad 
+	</select>
+	<select id="getFilenameById" parameterType="Map" resultMap="AdvertismentResult">
+	  SELECT * from ai_ad where media_id = #{media_id}
+	</select>
+	<select id="GetFileByType" parameterType="Map" resultMap="AdvertismentResult">
+	  SELECT * from ai_ad where media_type = #{type}
+	</select>
+	<delete id="deleteAd" parameterType="String">
+	  delete from ai_ad where media_id = #{media_id}
+	</delete>
+	<update id="updateAd" parameterType="com.pulan.model.Advertisment" >
+	    update ai_ad set media_subject = #{media_subject} where media_id = #{media_id}
+	</update>
+</mapper>

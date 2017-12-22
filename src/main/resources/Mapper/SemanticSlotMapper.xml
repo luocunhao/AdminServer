@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pulan.Dao.SemanticSlotDao">
+	<resultMap id="SemanticSlotResult" type="com.pulan.model.SemanticSlot">
+		<result column="slot_id" property="slot_id" jdbcType="VARCHAR" />
+		<result column="template_id" property="template_id" jdbcType="VARCHAR" />
+		<result column="slot_code" property="slot_code" jdbcType="VARCHAR" />
+		<result column="slot_name" property="slot_name" jdbcType="VARCHAR" />
+		<result column="slot_value" property="slot_value" jdbcType="VARCHAR" />
+		<result column="required" property="required" jdbcType="VARCHAR" />
+		<result column="default_value" property="default_value" jdbcType="VARCHAR" />
+		<result column="prompt" property="prompt" jdbcType="VARCHAR" />
+		<result column="word_class" property="word_class" jdbcType="VARCHAR" />
+		<result column="slot_order" property="slot_order" jdbcType="INTEGER" />
+		<result column="try_count" property="try_count" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 查询 -->
+	<select id="getSemanticslot" parameterType="Map" resultMap="SemanticSlotResult">
+	  SELECT * from ai_dialog_slot where template_id = #{template_id}
+	</select>
+	<!--新增 -->
+	<insert id="insertSemanticslot" parameterType="com.pulan.model.SemanticSlot">
+	<selectKey keyProperty="slot_id" resultType="String" order="BEFORE">
+	     select replace(uuid(),'-','') from dual
+	  </selectKey>
+	  insert into ai_dialog_slot(slot_id,template_id,slot_code,slot_name,slot_value,required,default_value,prompt,word_class,slot_order,try_count)
+	     values(#{slot_id},#{template_id},#{slot_code},#{slot_name},#{slot_value},#{required},#{default_value},#{prompt},#{word_class},#{slot_order},#{try_count})
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteSemanticslot" parameterType="String">
+	  delete from ai_dialog_slot where slot_id = #{slot_id}
+	</delete>
+	<!-- 删除 -->
+	<delete id="deleteSemanticslotByTemlateCode" parameterType="String">
+	  delete from ai_dialog_slot where template_id = #{template_code}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateSemanticslot" parameterType="com.pulan.model.SemanticSlot">
+	   update ai_dialog_slot set template_id = #{template_id},slot_code = #{slot_code},slot_name = #{slot_name},slot_value = #{slot_value},required=#{required},default_value=#{default_value},prompt=#{prompt},word_class=#{word_class},slot_order=#{slot_order},try_count=#{try_count} where slot_id = #{slot_id}
+	</update>
+</mapper>

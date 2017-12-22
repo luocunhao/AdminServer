@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pulan.Dao.HuaShuDao">
+	<resultMap id="HuaShuResult" type="com.pulan.model.VerbalTrick">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="category" property="category" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="VARCHAR" />
+		<result column="create_name" property="create_name" jdbcType="VARCHAR" />
+		<result column="type_desc" property="type_desc" jdbcType="VARCHAR" />
+		<result column="category_desc" property="category_desc" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 查询 -->
+	<select id="getAllVerbal" parameterType="Map" resultMap="HuaShuResult">
+	 SELECT * from verbal_trick
+	</select>
+	<!-- 查询 -->
+	<select id="getVerbalByCategoryAndType" parameterType="Map" resultMap="HuaShuResult">
+	 SELECT * from verbal_trick
+	 <if test="category != '' or type!=''">
+	 where category = #{category} and type = #{type}
+	 </if>
+	 limit #{fromIndex},#{pageSize}
+	</select>
+	<!-- 查询 -->
+	<select id="getTypes" parameterType="Map" resultType="String">
+	 SELECT distinct(type) from verbal_trick
+	</select>
+	<!-- 查询 -->
+	<select id="getCategoryType" parameterType="Map" resultType="String">
+	 SELECT distinct(category) from verbal_trick where type = #{type}
+	</select>
+	<select id="getDataSize" parameterType="Map" resultType="java.lang.Integer">
+	 select count(*) from verbal_trick
+	</select>
+	<select id="getDataSizepage" parameterType="Map" resultType="java.lang.Integer">
+	 select count(*) from verbal_trick
+	  <if test="category != '' or type!=''">
+	 where category = #{category} and type = #{type}
+	 </if>
+	</select>
+	<!--新增 -->
+	<insert id="insertVerbal" parameterType="com.pulan.model.VerbalTrick">
+	 <!--  <selectKey keyProperty="id" resultType="java.lang.Integer" order="BEFORE">
+	     select uuid()
+	  </selectKey>--> 
+	  insert into verbal_trick
+	  (category,content,type,type_desc,category_desc,create_time,create_name)
+	     values(#{category},#{content},#{type},#{type_desc},#{category_desc},#{create_time},#{create_name})
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteVerbal" parameterType="java.lang.Integer">
+	  delete from verbal_trick where id = #{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateVerbal" parameterType="com.pulan.model.Semantic">
+	    update verbal_trick set category = #{category},content = #{content},type = #{type},type_desc = #{type_desc},category_desc = #{category_desc} where id = #{id}
+	</update>
+</mapper>

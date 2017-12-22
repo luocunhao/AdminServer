@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pulan.Dao.SemanticDao">
+	<resultMap id="SemanticResult" type="com.pulan.model.Semantic">
+		<result column="template_id" property="template_id" jdbcType="VARCHAR" />
+		<result column="template_code" property="template_code" jdbcType="VARCHAR" />
+		<result column="template_name" property="template_name" jdbcType="VARCHAR" />
+		<result column="creator_name" property="creator_name" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="VARCHAR" />
+		<result column="action_url" property="action_url" jdbcType="VARCHAR" />
+		<result column="action_success" property="action_success" jdbcType="VARCHAR" />
+		<result column="action_failure" property="action_failure" jdbcType="VARCHAR" />
+		<result column="last_response" property="last_response" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 查询 -->
+	<select id="getAllSemantic" parameterType="Map" resultMap="SemanticResult">
+	  SELECT * from ai_dialog_template
+	</select>
+	<!--新增 -->
+	<insert id="insertSemantic" parameterType="com.pulan.model.Semantic">
+	 <selectKey keyProperty="template_id" resultType="String" order="BEFORE">
+	     select replace(uuid(),'-','') from dual
+	  </selectKey>
+	  insert into ai_dialog_template
+	     (template_id,template_code,template_name,action_url,action_success,action_failure,last_response,creator_name,create_time)
+	     values(#{template_id},#{template_code},#{template_name},#{action_url},#{action_success},#{action_failure},#{last_response},#{creator_name},#{create_time})
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteSemantic" parameterType="String">
+	  delete from ai_dialog_template where template_id = #{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateSemantic" parameterType="com.pulan.model.Semantic">
+	    update ai_dialog_template set template_code = #{template_code},
+	    template_name = #{template_name},
+	    action_url = #{action_url},
+	    action_success = #{action_success},
+	    action_failure = #{action_failure},
+	    last_response = #{last_response},
+	    creator_name = #{creator_name},
+	    create_time = #{create_time}
+	     where template_id = #{template_id}
+	</update>
+</mapper>

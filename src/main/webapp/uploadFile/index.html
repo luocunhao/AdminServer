@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<link rel="stylesheet" href="css/bootstrap.css"/>
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/common.css" />
+	<link rel="stylesheet" href="css/styles.css" />
+	
+	<script type="text/javascript" src="js/jquery-1.11.3.js" ></script>
+	<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="js/bootstrap-table.min.js" ></script>
+	
+	<body>
+		<div class="head">
+			<div class="col-md-2 headLeft">
+				<div style="margin-top: 16px;">
+					<span>花样年</span></br>
+					<span>FANTASIA</span>
+				</div>
+			</div>
+			<div class="col-md-10 headRight">
+				<span>花小秘管理平台</span>
+				<a class="logout">退出</a>
+			</div>
+		</div>
+		<section class="sections">
+			<div class="col-md-2 sectioonLeft">
+				<ul>
+					<li class="active" onclick="self.reload('.sectioonRight','pages/userManagement.html')">用户管理</li>
+					<li onclick="self.reload('.sectioonRight','pages/semantic.html')">语义模板管理</li>
+					<li onclick="self.reload('.sectioonRight','pages/verbal.html')">话术库管理</li>
+				</ul>
+			</div>
+			<div class="col-md-10 sectioonRight"></div>
+		</section>
+	</body>
+	<script type="text/javascript" src="js/index.js" ></script>
+</html>

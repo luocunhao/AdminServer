@@ -1,0 +1,9 @@
+li{list-style: none;}
+th{text-align: center;}
+.box{margin-top: 80px;}
+.box .contain{width: 70%;background: #fff;margin: 0 auto;padding: 0 16px 0 10px;}
+.box .contain .title{text-align: center;padding: 15px 0;font-weight: bold;}
+.box .contain .btnGroup{text-align: center;margin-top: 40px;padding-bottom: 40px;}
+.box .contain .btnGroup .btnSave{margin-right: 20px;}
+.box .contain .btnGroup .btnCancel{margin-left: 20px;}
+.headBtn{margin: 18px 0 16px;}

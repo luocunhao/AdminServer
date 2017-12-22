@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>信息提醒配置</title>
+	</head>
+	<style>
+		.active{background: #18D659;}
+	</style>
+	<body>
+		<div class="containerBox">
+			<p class="headBtn">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#megModal" >新增消息提醒</button>
+				<!--<button class="btn btn-primary">导入用户信息</button>-->
+			</p>
+			<table class="table table-bordered" style='table-layout:fixed;'>
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>信息名称</th>
+						<th>信息类型</th>
+						<th>数据源</th>
+						<th>定时类型</th>
+						<th>数据抽取逻辑</th>
+						<th>消息文本模板</th>
+						<th>提前通知时长</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody id="msgTabList">
+					<tr th:each="data:${allData}">
+						<td th:text="${data.message_uuid}"></td>
+						<td th:text="${data.message_name}"></td>
+						<td th:text="${data.message_type}"></td>
+						<td th:text="${data.data_source}"></td>
+						<td th:text="${data.schedule_type}"></td>
+						<td th:text="${data.data_sql}"></td>
+						<td th:text="${data.message_template}"></td>
+						<td th:text="${data.expire_time}"></td>
+						<td class="updaId">
+							<input type="button" value="修改" class="msgEdit comStlBtn"/>
+						<input type="button"  value="删除" class="msgDelete comStlBtn"/></td>
+			    	</tr> 
+				</tbody>
+			</table>
+			<div>共<span th:text="${totalRecord}" id='msgTotalRecord'></span>条记录，共<span th:text="${page.totalPage}" id='msgTotalPage'></span>页，当前第<span th:text="${page.currentPage}" id="msgCurrentPage"></span>页 </div>
+		   <ul class="pager" style="margin: 0;">
+			    <li id='msgPageIndex'><a href="#">首页</a></li>
+			   	<li class='btn' id='msgPre'><a href="#">上一页</a></li>
+			   	<li>
+			   	<select  id="tipSelect" >
+		             <option th:each="item:${#numbers.sequence(0,page.totalPage)}" th:value="${item}" th:text="${item}" th:if="${item != 0}" th:selected="(${pageNum} == ${item})">${item}</option>
+		          </select>
+			   	</li>
+			   	<li class='btn' id='msgNext'><a href="#">下一页></a></li>
+			   	<li id='msgLast'><a href="#">尾页</a></li>
+		   </ul>
+			<!--添加用户信息-->
+			<div class="modal fade comBox" id="megModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="box">
+					<div class="form-horizontal contain">
+						<p class="title">添加消息提醒配置</p>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">消息名称</label>
+						    <div class="col-sm-10">
+						       <input type="text" class="form-control" id="messageName" placeholder="请输入消息名称"/>
+						    </div>
+						</div>
+					   	<div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">消息类型</label>
+					    	<select class="col-sm-3" id='messageType' style="padding: 7px;margin-left: 15px;border-radius: 3px;">
+						      <option value="office">office</option>
+						      <option value="travel">travel</option>
+						      <option value="meetting">meetting</option>
+						      <option value="weather">weather</option>
+						      <option value="saturation">saturation</option>
+						      <option value="birth">birth</option>
+						      <option value="calendar">calendar</option>
+						      <option value="todo">todo</option>
+						      <option value="attendance">attendance</option>
+						      <option value="business">business</option>
+						      <option value="--">--</option>
+						    </select>
+					   </div>
+					    <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">数据源</label>
+					    	<select class="col-sm-3" id="dataSource" style="padding: 7px;margin-left: 15px;border-radius: 3px;">
+						      	<option value="mysql">mysql</option>
+						      	<option value="oracle">oracle</option>
+						      	<option value="sqlserver">sqlserver</option>
+						      	<option value="第三方">第三方</option>
+						      	<option value="--">--</option>
+						    </select>
+					   </div>
+					    <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">定时类型</label>
+					    	<select class="col-sm-3" id="scheduleType" style="padding: 7px;margin-left: 15px;border-radius: 3px;">
+						      	<option value="day">day</option>
+						      	<option value="hour">hour</option>
+						      	<option value="minute">minute</option>
+						      	<option value="--">--</option>
+						    </select>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">数据抽取逻辑</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="dataSql" placeholder="请输入数据抽取逻辑"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">消息文本模板</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="msgTamplate" placeholder="请输入消息文本模板"/>
+						    </div>
+					   </div>
+					    <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">提前通知时长</label>
+						    <div class="col-sm-10">
+						      <input class="form-control" id="expireTime" placeholder="请填写整数格式"/>
+						    </div>
+					   </div>
+					   <div class="form-group btnGroup">
+						   <button class="btn btn-primary btnSave" type="button" onclick="addMessageTip()">确定</button>
+						   <button class="btn btn-primary btnCancel" type="button" data-dismiss="modal" aria-hidden="true">取消</button>
+					   </div>
+					</div>   
+				</div>
+			</div>
+			
+			<!--修改消息信息-->
+			<div class="modal fade comBox" id="msgModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="box">
+					<div class="form-horizontal contain">
+						<input type='hidden' id="editMsgId" name="editMsgId" value='' />
+						<p class="title">修改信息提醒配置</p>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">消息名称</label>
+						    <div class="col-sm-10">
+						       <input type="text" class="form-control" name="editName" id="editMsgName" placeholder="请输入消息名称"/>
+						    </div>
+						</div>
+					  	<div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">消息类型</label>
+					    	<select class="col-sm-3" id='editMsgType' style="padding: 7px;margin-left: 15px;border-radius: 3px;">
+						    <option value="office">office</option>
+						      <option value="travel">travel</option>
+						      <option value="meetting">meetting</option>
+						      <option value="weather">weather</option>
+						      <option value="saturation">saturation</option>
+						      <option value="birth">birth</option>
+						       <option value="calendar">calendar</option>
+						        <option value="todo">todo</option>
+						         <option value="attendance">attendance</option>
+						      <option value="business">business</option>
+						        <option value="--">--</option>
+						    </select>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">数据源</label>
+					    	<select class="col-sm-3" id="editDataSource" style="padding: 7px;margin-left: 15px;border-radius: 3px;">
+						      	<option value="mysql">mysql</option>
+						      	<option value="oracle">oracle</option>
+						      	<option value="sqlserver">sqlserver</option>
+						      	<option value="第三方">第三方</option>  
+						      	<option value="--">--</option>
+						    </select> 
+					   </div>
+					    <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">定时类型</label>
+					    	<select class="col-sm-3" id="editScheduleType" style="padding: 7px;margin-left: 15px;border-radius: 3px;">
+						      	<option value="day">day</option>
+						      	<option value="hour">hour</option>
+						      	<option value="minute">minute</option>
+						      	<option value="--">--</option>
+						    </select>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">数据抽取逻辑</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="editDataSql" placeholder="请输入数据抽取逻辑"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">消息文本模板</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" name="editMsgTamplate" id="editMsgTamplate" placeholder="请输入消息文本模板"/>
+						    </div>
+					   </div>
+					    <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">提前通知时长</label>
+						    <div class="col-sm-10">
+						      <input type="number" class="form-control" id="editExpireTime" placeholder="请填写整数格式"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+							<label for="inputPassword3" class="col-sm-2 control-label">消息提醒参数</label>
+							<div class="col-sm-10">
+								<table class="table-bordered addLineTab">
+									<thead>
+										<tr>
+											<th style="width: 8%;display: none;">参数序号</th>
+											<th style="width: 12%;">参数名称</th>
+											<th style="width: 12%;">参数顺序`</th>
+											<th style="width: 12%;">参数值</th>
+											<th style="width: 8%;"><button onclick="addLTipLine()">+</button></th>
+										</tr>
+									</thead>
+									<tbody class="msgtab" id="msgtab"></tbody>
+								</table>
+							</div>
+						</div>
+					   <div class="form-group btnGroup">
+						   <button class="btn btn-primary btnSave" type="button" onclick="editMessageTip()">保存</button>
+						   <button class="btn btn-primary btnCancel" type="button" data-dismiss="modal" aria-hidden="true">取消</button>
+					   </div>
+					</div>   
+				</div>
+			</div>
+		</div>
+	</body>
+	<script th:src="@{../../../js/messageTip.js}"></script>
+</html>

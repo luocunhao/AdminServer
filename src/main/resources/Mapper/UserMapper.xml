@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pulan.Dao.UserDao">
+	<resultMap id="UserResult" type="com.pulan.model.User">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="mail_name" property="mail_name" jdbcType="VARCHAR" />
+		<result column="cn_name" property="cn_name" jdbcType="VARCHAR" />
+		<result column="ldapp_dn" property="ldap_dn" jdbcType="VARCHAR" />
+		<result column="department" property="department" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+		<result column="imei" property="imei" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="VARCHAR" />
+		<result column="create_time" property="create_time" jdbcType="VARCHAR" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="faceId" property="faceId" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 查询 -->
+	<select id="findByUserName" parameterType="Map" resultMap="UserResult">
+	 select * from ai_user where mail_name = #{username}
+	</select>
+	<!-- 查询 -->
+	<select id="getRoleIdByRole" parameterType="Map" resultType="String">
+	 select id from ai_role where role = #{role}
+	</select>
+	<!-- 查询 -->
+	<select id="getAllRole" parameterType="Map" resultType="String">
+	 select role from ai_role 
+	</select>
+	<!-- 查询 -->
+	<select id="getUserById" parameterType="Map" resultMap="UserResult">
+	 select * from ai_user where id = #{userid}
+	</select>
+	<!-- 查询 -->
+	<select id="getDataSize" parameterType="Map" resultType="java.lang.Integer">
+	 select count(*) from ai_user
+	</select>
+	<!-- 查询 -->
+	<select id="getAllPermissionByUserid" parameterType="Map" resultType="String">
+	select b.permission_name  
+	from ai_user_role as a ,ai_permission as b 
+	where a.role_id = b.role_id and a.user_id = #{userid}
+	</select>
+	<select id="getAllRoleByUserId" parameterType="Map" resultType="String">
+	   select b.role
+    from ai_user_role a,ai_role b
+    where a.role_id = b.id and a.user_id  = #{userid}
+	</select>
+	<!-- 查询 -->
+	<select id="getAllUser" parameterType="Map" resultMap="UserResult">
+	select * from ai_user limit #{fromIndex},#{pageSize}
+	</select>
+	<select id="getEmailByname" parameterType="Map" resultType="String">
+	select email from ai_user where mail_name = #{name}
+	</select>
+	<select id="getAllMailName" parameterType="Map" resultType="String">
+	select mail_name from ai_user 
+	</select>
+	<select id="getUserByFaceid" parameterType="Map" resultMap="UserResult">
+	select * from ai_user where faceId = #{faceid}
+	</select>
+	<insert id="insertUser" parameterType="com.pulan.model.User">
+	 <selectKey keyProperty="id" resultType="string" order="BEFORE">
+	    select replace(uuid(),'-','') from dual
+	  </selectKey>
+	  insert into ai_user (id,mail_name,cn_name,ldap_dn,department,mobile,email,pinyin,imei,create_time,pic)
+	  values(#{id},#{mail_name},#{cn_name},#{ldap_dn},#{department},#{mobile},#{email},#{pinyin},#{imei},#{create_time},#{pic})
+	</insert>
+	<insert id="insertUserRole" parameterType="Map">
+	  insert into ai_user_role (user_id,role_id)
+	  values(#{userid},#{roleid})
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteUser" parameterType="string">
+	  delete from ai_user where id = #{userid}
+	</delete>
+	<!-- 删除 -->
+	<delete id="deleteRole" parameterType="string">
+	  delete from ai_user_role where user_id = #{user_id}
+	</delete>
+	<!-- 更新 -->
+	<update id="update" parameterType="com.pulan.model.User">
+	   update ai_user set mail_name = #{mail_name},cn_name = #{cn_name},ldap_dn = #{ldap_dn},department = #{department},mobile=#{mobile},email=#{email},pinyin=#{pinyin},imei=#{imei},create_time=#{create_time},pic=#{pic} where id = #{id}
+	</update>
+	<update id="updateUhead" parameterType="com.pulan.model.User">
+	   update ai_user set pic=#{pic} where mail_name = #{mail_name}
+	</update>
+	<update id="updateFaceId" parameterType="com.pulan.model.User">
+		update ai_user set faceId=#{faceId} where mail_name = #{mail_name}
+	</update>
+</mapper>

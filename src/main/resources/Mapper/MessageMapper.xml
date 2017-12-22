@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pulan.Dao.MessageDao">
+	<resultMap id="MessageResult" type="com.pulan.model.Message">
+		<result column="message_uuid" property="message_uuid" jdbcType="VARCHAR" />
+		<result column="message_name" property="message_name" jdbcType="VARCHAR" />
+		<result column="message_type" property="message_type" jdbcType="VARCHAR" />
+		<result column="data_sql" property="data_sql" jdbcType="VARCHAR" />
+		<result column="message_template" property="message_template" jdbcType="VARCHAR" />
+		<result column="data_source" property="data_source" jdbcType="VARCHAR" />
+		<result column="schedule_type" property="schedule_type" jdbcType="VARCHAR" />
+		<result column="expire_time" property="expire_time" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="MessageParamResult" type="com.pulan.model.MessageParam">
+		<result column="message_uuid" property="message_uuid" jdbcType="VARCHAR" />
+		<result column="message_param_name" property="message_param_name" jdbcType="VARCHAR" />
+		<result column="message_param_uuid" property="message_param_uuid" jdbcType="VARCHAR" />
+		<result column="message_param_index" property="message_param_index" jdbcType="VARCHAR" />
+		<result column="message_param_value" property="message_param_value" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 查询 -->
+	<select id="getAllParamByMessage" parameterType="Map" resultMap="MessageParamResult">
+	 select * from ai_message_param where message_uuid = #{message_uuid}
+	</select>
+	<!-- 查询 -->
+	<select id="getAllMessage" parameterType="Map" resultMap="MessageResult">
+	 select * from ai_message limit #{fromIndex},#{pageSize}
+	</select>
+	<select id="getDataSize" parameterType="Map" resultType="java.lang.Integer">
+	 select count(*) from ai_message 
+	</select>
+	<!--新增 -->
+	<insert id="insertMessage" parameterType="com.pulan.model.Message">
+	 <selectKey keyProperty="message_uuid" resultType="String" order="BEFORE">
+	     select replace(uuid(),'-','') from dual
+	  </selectKey>
+	  insert into ai_message
+	  (message_uuid,message_name,message_type,data_source,data_sql,message_template,schedule_type,expire_time)
+	     values(#{message_uuid},#{message_name},#{message_type},#{data_source},#{data_sql},#{message_template},#{schedule_type},#{expire_time})
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteMessage" parameterType="Map">
+	  delete from ai_message where message_uuid = #{message_uuid}
+	</delete>
+	<update id="updateMessage" parameterType="com.pulan.model.Message">
+	    update ai_message set message_name = #{message_name},message_type = #{message_type},data_source = #{data_source},data_sql = #{data_sql},message_template = #{message_template},schedule_type=#{schedule_type},expire_time=#{expire_time} where message_uuid = #{message_uuid}
+	</update>
+	<!-- 删除 -->
+	<delete id="deleteMessageParam" parameterType="Map">
+	  delete from ai_message_param where message_uuid = #{message_uuid}
+	</delete>
+	<delete id="deleteMessageParamByUUID" parameterType="Map">
+	  delete from ai_message_param where message_param_uuid = #{message_param_uuid}
+	</delete>
+	<select id="getMessageByUUID" parameterType="Map" resultMap="MessageParamResult">
+	 select * from ai_message_param where message_uuid = #{message_uuid}
+	</select>
+	<!--新增 -->
+	<insert id="insertMessageParam" parameterType="com.pulan.model.MessageParam">
+	 <selectKey keyProperty="message_param_uuid" resultType="String" order="BEFORE">
+	     select replace(uuid(),'-','') from dual
+	  </selectKey>
+	  insert into ai_message_param
+	  (message_param_uuid,message_param_name,message_param_index,message_param_value,message_uuid)
+	     values(#{message_param_uuid},#{message_param_name},#{message_param_index},#{message_param_value},#{message_uuid})
+	</insert>
+	<update id="updateMessageParam" parameterType="com.pulan.model.MessageParam">
+	    update ai_message_param set message_param_name = #{message_param_name},message_param_index = #{message_param_index},message_param_value = #{message_param_value},message_uuid = #{message_uuid} where message_param_uuid = #{message_param_uuid}
+	</update>
+</mapper>

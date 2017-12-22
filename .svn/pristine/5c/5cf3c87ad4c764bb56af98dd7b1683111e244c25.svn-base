@@ -1,0 +1,36 @@
+/*login*/
+html{height: 100%;}
+body{background: url(../img/backgroup.png) no-repeat;background-size: cover;}
+td{text-overflow: ellipsis;white-space: nowrap;overflow: hidden;text-align: center}
+li{cursor: pointer;}
+.comStlBtn{border: none;padding-top: 3px;}
+.loginBox{width: 50%;margin: 100px auto;}
+#regBox{width: 50%;margin: 40px auto;}
+.loginBox .loginCont{background: rgba(165, 171, 167, 0.44);border-radius: 12px;}
+.loginBox .loginCont .loginTitle{padding-top: 30px;}
+.loginBox .loginCont .checkDiv{margin-left: 32px;position: relative;}
+.loginBox .loginCont .checkDiv .checkText{margin-left: 18px;}
+.loginBox .loginCont  .loginBtn{text-align: center;padding: 44px 0;}
+
+/*index*/
+.head{width: 100%;height: 80px;}
+.head .headLeft{background: rgba(105, 102, 97, 0.28);height: 80px;font-size: 18px;text-align: center;}
+.head .headRight{height: 80px;line-height: 80px;font-size: 24px;
+					display: flex;flex-direction: row;justify-content: space-between;}
+.head .headRight .logout{color: #eceef1;text-decoration: none;margin-right: 40px;font-size: 20px;cursor: pointer;}					
+.sections .sectioonLeft ul{margin-top: 40px;padding-left: 0;text-align: center;}
+.sections .sectioonLeft ul li{padding: 10px 0;}
+.sections .sectioonLeft .active{background: rgba(105, 102, 97, 0.28);}
+.sections .sectioonRight{background: rgba(142, 146, 142, 0.21);}
+
+
+/*userManagement*/
+.selectBox{width: 54%;padding: 3% 0;flex-direction: row;justify-content: space-between;display: flex;}
+.selectBox .boxTlt{width: 120px;text-align: center;}
+.selectBox .toRight{margin-bottom: 20px;}
+.selectBox .boxCtn{border: 1px solid;margin-top: 6%;text-align: center;}
+.selectBox .boxCtn .boxText{padding: 2px 0; cursor: pointer;}
+
+/**semantic**/
+.addLine input{border: 0;text-align: center;}
+

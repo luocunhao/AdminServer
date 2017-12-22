@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>上传文件</title>
+</head>
+<style>
+		.active{background: #18D659;}
+		.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+		    margin: 0;
+		    padding: 0;
+		    border: none;
+		    box-shadow: none;
+		    text-align: center;
+		}
+		.kv-avatar {
+		    display: inline-block;
+		}
+		.kv-avatar .file-input {
+		    display: table-cell;
+		    width: 213px;
+		}
+		.kv-reqd {
+		    color: red;
+		    font-family: monospace;
+		    font-weight: normal;
+		}
+	</style>
+	<script th:src="@{../../../js/fileinput.js}" ></script>
+	<script th:src="@{../../../js/locales/zh.js}" ></script>
+<body>
+		<div class="containerBox">
+			<p class="headBtn">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="openAdd1">新增上传文件</button>
+			</p>
+			<table class="table table-bordered" style='table-layout:fixed;'>
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>文件名</th>
+						<th>文件类型</th>
+						<th>文件路径</th>
+						<th>广告主题</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody id="tabList">
+					<tr th:each="data:${allData}">
+				      <td th:text="${data.media_id}"></td>
+				      <td th:text="${data.media_name}"></td>
+				      <td th:text="${data.media_type}"></td>
+				      <td th:text="${data.media_link}"></td>
+				      <td th:text="${data.media_subject}"></td>
+				      <td class="updaId"><input type="button" value="修改" class="uploadEdit comStlBtn"/><input type="button"  value="删除" class="uploadDelete comStlBtn"/></td>
+				   </tr>
+				</tbody>
+			</table>
+
+			<!--添加上传文件-->
+			<div class="modal fade comBox" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="box">
+					<div class="form-horizontal contain">
+						<p class="title" style="">添加上传文件</p>
+						<form enctype="multipart/form-data" method="post" action="uploadAd">
+							<div class="form-group" style="margin-left: 10%;">
+								<label class="col-sm-2 control-label">广告主题</label>
+								<div class="col-sm-6">
+									<input type="text" name="subject" class="form-control"/>
+								</div>
+							</div>	
+							<div class="form-group" style="margin-left: 10%;">
+								<label class="col-sm-2 control-label">上传文件</label>
+								<div class="col-sm-6">
+									<!--<input type="file" name="file" class="form-control"/>-->
+									<input id="input-b1" name="file" type="file" class="file"/>
+								</div>
+							</div>	
+							<div class="form-group btnGroup">
+								<input class="btn bg-primary btnSave" type="submit" value="上传"/>
+								<button class="btn bg-primary btnCancel" data-dismiss="modal" aria-hidden="true">取  消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			
+			<!--修改上传文件-->
+			<div class="modal fade comBox" id="uploadModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="box">
+					<div class="form-horizontal contain">
+						<input type='hidden' id="editFileId" name="editFileId" value='' />
+						<p class="title">修改上传文件</p>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">文件名</label>
+						    <div class="col-sm-10">
+						       <input type="text" class="form-control" id="fileName" placeholder="" disabled="disabled"/>
+						    </div>
+						</div>  
+					    <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">文件类型</label>
+					    	 <div class="col-sm-10">
+						       <input type="text" class="form-control" id="fileType" placeholder="" disabled="disabled"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">文件路径</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="fileUrl" placeholder="" disabled="disabled"/>
+						    </div>
+					   </div>
+					    <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">广告主题</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="fileTheam" placeholder=""/>
+						    </div>
+					   </div>
+					   <div class="form-group btnGroup">
+						   <button class="btn btn-primary btnSave" type="button" onclick="editFile()">确定</button>
+						   <button class="btn btn-primary btnCancel" type="button" data-dismiss="modal" aria-hidden="true">取消</button>
+					   </div>
+					</div>   
+				</div>
+			</div>
+		</div>
+</body>
+<script th:src="@{../../../js/uploadFile.js}"></script>
+</html>

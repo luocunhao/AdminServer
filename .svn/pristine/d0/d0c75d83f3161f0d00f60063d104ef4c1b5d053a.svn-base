@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>用户管理</title>
+	</head>
+	<style>
+		.active{background: #18D659;}
+		.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+		    margin: 0;
+		    padding: 0;
+		    border: none;
+		    box-shadow: none;
+		    text-align: center;
+		}
+		.kv-avatar {
+		    display: inline-block;
+		}
+		.kv-avatar .file-input {
+		    display: table-cell;
+		    width: 213px;
+		}
+		.kv-reqd {
+		    color: red;
+		    font-family: monospace;
+		    font-weight: normal;
+		}
+	</style>
+	<script th:src="@{../../../js/fileinput.js}" ></script>
+	<script th:src="@{../../../js/locales/zh.js}" ></script>
+	<body>
+		<div class="containerBox">
+			<p class="headBtn">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" >新增用户信息</button>
+				<!--<button class="btn btn-primary">导入用户信息</button>-->
+			</p>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>用户id</th>
+						<th>用户名称</th>
+						<th>账号</th>
+						<th>所属部门</th>
+						<th>邮箱地址</th>
+						<th>创建日期</th>
+						<th>拥有角色</th>
+						<th style="display: none;">pic</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody id="tabList">
+					<tr th:each="data:${allData}">
+					<td th:text="${data.id}"></td>
+					<td th:text="${data.cn_name}"></td>
+					<td th:text="${data.mail_name}"></td>
+					<td th:text="${data.department}"></td>
+					<td th:text="${data.email}"></td>
+					<td th:text="${data.create_time}"></td>
+					<td th:text="${data.role}"></td>
+					<td th:text="${data.pic}"></td>
+					<td class="updaId"><input type="button" value="修改" class="userEdit comStlBtn"/><input type="button"  value="删除" class="userDelete comStlBtn"/></td>
+			    </tr> 
+				</tbody>
+			</table>
+			<div>共<span th:text="${totalRecord}" id='totalRecord'></span>条记录，共<span th:text="${page.totalPage}" id='totalPage'></span>页，当前第<span th:text="${page.currentPage}" id='currentPage'></span>页 </div>
+		   <ul class="pager" style="margin: 0;">
+			    <li id='pageIndex'><a href="#">首页</a></li>
+			   	<li class='btn' id='userPre'><a href="#">上一页</a></li>
+			   	<li>
+			   	<select  id="userSelect" >
+		             <option th:each="item:${#numbers.sequence(0,page.totalPage)}" th:value="${item}" th:text="${item}" th:if="${item != 0}" th:selected="(${pageNum} == ${item})">${item}</option>
+		          </select>
+			   	</li>
+			   	<li class='btn' id='userNext'><a href="#">下一页></a></li>
+			   	<li id='pageLast'><a href="#">尾页</a></li>
+		   </ul>
+			<!--添加用户信息-->
+			<div class="modal fade comBox" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="box">
+					<div class="form-horizontal contain">
+						<p class="title">添加用户信息</p>
+						<!--<div class="form-group">
+							<label class="col-sm-2 control-label">用户头像</label>
+							<div class="col-sm-10">
+								<input type="file" name="image" class="projectfile" value="${deal.image}" />
+							</div>
+						</div>-->
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用户头像</label>
+				            <div class="kv-avatar" style="text-align: center;">
+				                <div class="file-loading">
+				                    <input id="avatar-1" name="avatar-1" type="file" required="required"/>
+				                </div>
+				            </div>
+				        </div>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">用户名称</label>
+						    <div class="col-sm-10">
+						       <input type="text" class="form-control" id="userName" placeholder="请输入用户名称"/>
+						    </div>
+						</div>
+					  	<div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">用户账号</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="userAccount" placeholder="请输入用户账号"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">所属部门</label>
+						    <div class="col-sm-10">
+						      	<input type="text" class="form-control" id="department" placeholder="请输用户所属部门"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">邮箱地址</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="userEmail" placeholder="请输用户邮箱地址入"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">拥有角色</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="userRole" placeholder="请输入用户角色"/>
+						    </div>
+					   </div>
+					   <div class="form-group btnGroup">
+						   <button class="btn btn-primary btnSave" type="button" onclick="addMessage()">确定</button>
+						   <button class="btn btn-primary btnCancel" type="button" data-dismiss="modal" aria-hidden="true">取消</button>
+					   </div>
+					</div>   
+				</div>
+			</div>
+			
+			<!--修改用户信息-->
+			<div class="modal fade comBox" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="box">
+					<div class="form-horizontal contain">
+						<input type='hidden' id="editId" name="editId" value='' />
+						<p class="title">修改用户信息</p>
+						<!--<div class="form-group">
+							<label class="col-sm-2 control-label">用户头像</label>
+							<div class="col-sm-10">
+								<input type="file" name="image" class="projectfile" value="" id="fileId" placeholder="支持jpg、jpeg、png、gif格式，大小不超过2.0M"/>
+							</div>
+						</div>-->
+						<div class="form-group">
+							<label class="col-sm-2 control-label">用户头像</label>
+				            <div class="kv-avatar" style="text-align: center;">
+				                <div class="file-loading">
+				                    <input id="avatar-2" name="avatar-1" type="file" required="required"/>
+				                </div>
+				            </div>
+				        </div>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">用户名称</label>
+						    <div class="col-sm-10">
+						       <input type="text" class="form-control" name="editName" id="editUserName" placeholder="请输入用户名称"/>
+						    </div>
+						</div>
+					  	<div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">用户账号</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" name="editAcount" id="editUserAccount" placeholder="请输入用户账号"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">所属部门</label>
+						    <div class="col-sm-10">
+						      	<input type="text" class="form-control" id="editDepartment" placeholder=""/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">邮箱地址</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="editUserEmail" placeholder="请输用户邮箱地址入"/>
+						    </div>
+					   </div>
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">拥有角色</label>
+						    <div class="col-sm-9">
+						      <input type="text" class="form-control" name="editRole" id="editUserRole" disabled="disabled" placeholder="请输入用户角色"/>
+						    </div>
+						    <button class="btn btn-primary addBtn" type="button" data-toggle="modal" data-target="#myModal2" >+</button>
+					   </div>
+					   <div class="form-group btnGroup">
+						   <button class="btn btn-primary btnSave" type="button" onclick="editMessage()">保存</button>
+						   <button class="btn btn-primary btnCancel" type="button" data-dismiss="modal" aria-hidden="true">取消</button>
+					   </div>
+					</div>   
+				</div>
+			</div>
+			
+			<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="box">
+					<div class="form-horizontal contain">
+					<input type='hidden' id="edid" value='' />
+						<p class="title">关联用户角色</p>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">用户账号</label>
+						    <div class="col-sm-10">
+						       <input type="text" class="form-control" id="roleAcount" disabled="disabled" placeholder="请输入用户账号"/>
+						    </div>
+						</div>
+						<div class="form-group">
+						    <label class="col-sm-2 control-label">用户名称</label>
+						    <div class="col-sm-10">
+						       <input type="text" class="form-control" id="roleName" disabled="disabled" placeholder="请输入用户名称"/>
+						    </div>
+						</div>
+						<div class="form-group selectBox">
+							<div>    
+								<label class="col-sm-2 control-label boxTlt">可选角色</label><br></br>
+								<div class="boxCtn box1" id='box1'>
+									
+								</div>
+							</div>
+							<div>
+								<button class="toRight"> >> </button><br></br>
+								<button class="toLeft"> &lt;&lt; </button>
+							</div>
+							<div> 
+							 	<label class="col-sm-2 control-label boxTlt">已选角色</label><br></br>
+							 	<div class="boxCtn box2" id='box2'>
+							 		
+							 	</div>
+							</div>
+						</div>
+						<div class="form-group btnGroup">
+						   <button class="btn btn-primary btnSave" type="button" onclick="addRole()">保存</button>
+						   <button class="btn btn-primary btnCancel" type="button" data-dismiss="modal" aria-hidden="true">取消</button>
+					  	</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</body>
+	<script th:src="@{../../../js/userManagement.js}"></script>
+</html>

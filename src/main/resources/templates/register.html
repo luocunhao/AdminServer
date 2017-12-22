@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<link rel="stylesheet" th:href="@{../../css/bootstrap.css}" />
+		<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}"/>
+		<link rel="stylesheet" th:href="@{../../css/fileinput.css}" />
+		<link rel="stylesheet" th:href="@{../../css/common.css}" />
+		<link rel="stylesheet" th:href="@{../../css/styles.css}" />
+		
+		<script th:src="@{../../../js/jquery-1.7.2.min.js}"></script>
+		<script th:src="@{../../js/fileinput.js}" ></script>
+		<script th:src="@{../../js/locales/zh.js}" ></script>
+		<style>
+			.active{background: #18D659;}
+			.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+			    margin: 0;
+			    padding: 0;
+			    border: none;
+			    box-shadow: none;
+			    text-align: center;
+			}
+			.kv-avatar {
+			    display: inline-block;
+			}
+			.kv-avatar .file-input {
+			    display: table-cell;
+			    width: 213px;
+			}
+			.kv-reqd {
+			    color: red;
+			    font-family: monospace;
+			    font-weight: normal;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box loginBox" id="regBox">
+			<div class="form-horizontal contain loginCont">
+				<p class="title loginTitle">用户注册</p>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">用户头像</label>
+		            <div class="kv-avatar" style="text-align: center;">
+		                <div class="file-loading">
+		                    <input id="avatar-3" name="avatar-1" type="file" required="required"/>
+		                </div>
+		            </div>
+		        </div>
+				<div class="form-group">
+				    <label class="col-sm-3 control-label">用户账号</label>
+				    <div class="col-sm-9">
+				       <input type="email" class="form-control" id="regName" placeholder="请输入用户注册账号"/>
+				    </div>
+				</div>
+			  	<div class="form-group">
+				    <label for="inputPassword3" class="col-sm-3 control-label">用户密码</label>
+				    <div class="col-sm-9">
+				      <input type="password" class="form-control" id="regWord" placeholder="请输入用户注册密码"/>
+				    </div>
+			   </div>
+			  <div class="form-group">
+				    <label for="inputPassword3" class="col-sm-3 control-label">确认密码</label>
+				    <div class="col-sm-9">
+				      <input type="password" class="form-control" id="regWords" placeholder="请用户再次输入密码"/>
+				    </div>
+			   </div>
+			   <div class="form-group loginBtn">
+				   <button class="btn btn-primary" type="button" onclick="register()" style="width: 60%;">确定</button>
+			   </div>
+			</div>   
+		</div>
+	</body>
+	<script th:src="@{../../js/register.js}" ></script>
+</html>
