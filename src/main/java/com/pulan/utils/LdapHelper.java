@@ -14,8 +14,7 @@ public class LdapHelper {
 //      if (ctx != null ) {
 //          return ctx;DirContext
 //      }
-//      String account = "hyn\\luolp"; //binddn 
-//      String password = "hyn12345";    //bindpwd
+
       String root = "OU=A花样年集团（中国）有限公司,OU=花样年控股集团有限公司,DC=hyn,DC=com"; // root
       Hashtable env = new Hashtable();
       env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
